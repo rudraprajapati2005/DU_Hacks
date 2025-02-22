@@ -1,10 +1,26 @@
 from django.shortcuts import render,HttpResponse
+<<<<<<< HEAD
 from .models import Student,Classroom
 from .forms import StudentForm,classRoomForm,ClassRoomGeneratorForm
+=======
+from .models import Student, Attendence
+from .forms import StudentForm
+>>>>>>> 50e3b7a14c5ef3560469bf2fcb5e6f9eacd752db
 from django.shortcuts import get_object_or_404, redirect
 import random
 
 def Student_details(request):
+    if request.method == 'POST':
+        form = StudentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('Student_details')
+    else:
+        form = StudentForm()
+
+    return render(request,'index.html', {'form': form})
+
+
     student = get_object_or_404(Student, student_id=1)
     return render(request, 'Student_details.html', {'student': student})
     
@@ -48,3 +64,23 @@ def generateClassroom(request):
             return HttpResponse('Form is not valid')
  
             
+    form = StudentForm(request.POST or None)
+    if form.is_valid():
+        return HttpResponse('<h1>' +form+ '</h1>')
+    return render(request, 'Student_details.html', {'form': form})
+
+def mark_attendance(request):
+    if request.method == 'POST':
+        student_id = request.POST.get('student_id')
+        date = request.POST.get('date')
+        status = request.POST.get('status')
+        
+        student = get_object_or_404(Student, id=student_id)
+        attendance, created = Attendence.objects.get_or_create(student=student, date=date)
+        attendance.status = status
+        attendance.save()
+        
+        return HttpResponse('Attendance marked successfully')
+    
+    students = Student.objects.all()
+    return render(request, 'mark_attendance.html', {'students': students})

@@ -30,3 +30,13 @@ class Classroom(models.Model):
     classroom_name = models.CharField(max_length=255,unique=True)
     classroom_code = models.CharField(max_length=255,unique=True,default='DEFAULT_CODE')
     
+class Attendence(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE)
+    date = models.DateField()
+    status = models.CharField(max_length=10, choices=[('Present', 'Present'), ('Absent', 'Absent')])
+
+    def __str__(self):
+        return f"{self.student.user.username} - {self.classroom.classroom_name} - {self.date} - {self.status}"
+
+

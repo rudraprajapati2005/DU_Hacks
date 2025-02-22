@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from .models import Student
-# from .forms import 
+from .forms import StudentForm
 from django.shortcuts import get_object_or_404, redirect
 
-def Student_details(request, student_id):
-    student = get_object_or_404(Student, student_id=student_id)
+def Student_details(request):
+
+    student = get_object_or_404(Student, Student_id=1)
     return render(request, 'Student_details.html', {'student': student})
     
 

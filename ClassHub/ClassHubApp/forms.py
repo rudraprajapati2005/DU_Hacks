@@ -5,7 +5,7 @@ from .models import Student, Attendance
 class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
-        fields = ['student_id', 'department', 'year', 'section', 'semester']
+        fields = ['email', 'password']
         labels = {
             'student_id': 'Student ID',
             'department': 'Department',

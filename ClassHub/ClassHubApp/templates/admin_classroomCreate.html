@@ -14,6 +14,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            margin: 0;
         }
         .container {
             background: white;
@@ -22,13 +23,17 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 300px;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        input {
+        .form-control {
             width: 100%;
             padding: 8px;
             margin: 8px 0;
             border: 1px solid #ccc;
             border-radius: 5px;
+            box-sizing: border-box;
         }
         button {
             width: 100%;
@@ -53,33 +58,33 @@
 <body>
 
     <div class="container">
-        <h2>Inter Face</h2>
-        <input type="text" id="userId" placeholder="Enter ID" required>
-        <input type="password" id="password" placeholder="Enter Password" required>
-        <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
-        <div id="error-message" class="error"></div>
-        <button onclick="validateForm()">Submit</button>
+        <form method="post" action="{% url 'createClassroom' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Submit</button>
+        </form>
     </div>
 
     <script>
         function validateForm() {
-            let userId = document.getElementById("userId").value.trim();
-            let password = document.getElementById("password").value;
-            let confirmPassword = document.getElementById("confirmPassword").value;
+            let userId = document.getElementById("id_user_id").value.trim();
+            let password = document.getElementById("id_user_password").value;
+            let confirmPassword = document.getElementById("id_confirmPassword").value;
             let errorMessage = document.getElementById("error-message");
 
             if (userId === "" || password === "" || confirmPassword === "") {
                 errorMessage.innerText = "All fields are required!";
-                return;
+                return false;
             }
 
             if (password !== confirmPassword) {
                 errorMessage.innerText = "Passwords do not match!";
-                return;
+                return false;
             }
 
             errorMessage.innerText = "Form submitted successfully!";
             errorMessage.style.color = "green";
+            return true;
         }
     </script>
 

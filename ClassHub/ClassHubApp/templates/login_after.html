@@ -84,14 +84,16 @@
                 </a>
             </div>
             <div class="feature">
-                <a href="'{% url 'teacherLogin' %}'">
+                <a href="{% url 'teacher_student_login' %}">
                 <img src="{% static 'images/teacherLogin.png'%}" alt="Login as Teacher">
                 <button class="btn" onclick="window.location.href='#'">Login as Teacher</button>
                 </a>
             </div>
             <div class="feature">
+                <a href="{% url 'teacher_student_login' %}">
                 <img src="{% static 'images/studentLogin.png'%}" alt="Login as Student">
                 <button class="btn" onclick="window.location.href='#'">Login as Student</button>
+                </a>
             </div>
         </section>
     </main>

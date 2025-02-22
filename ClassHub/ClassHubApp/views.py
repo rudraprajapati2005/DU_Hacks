@@ -2,18 +2,22 @@ from django.shortcuts import render, redirect,HttpResponse
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib import messages
 from ClassHubApp.models import Teacher_data, Student
-
 from django.contrib.auth.hashers import check_password
-
 from ClassHubApp.models import Teacher_data, Student
-def login(request):
+from .models import Student,Classroom
+from .forms import StudentForm,classRoomForm,ClassRoomGeneratorForm
+from .models import Student, Attendance
+from django.shortcuts import get_object_or_404, redirect
+import random
+
+def teacher_student_login(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
 
         if not email or not password:
             messages.error(request, "Email and Password are required.")
-            return redirect('login')
+            return redirect('teacher_student_login')
 
         user = None
         user_type = None
@@ -29,7 +33,7 @@ def login(request):
                 return redirect('teacher_home')  # Fixed
             else:
                 messages.error(request, "Invalid email or password.")
-                return redirect('login')
+                return redirect('teacher_student_login')
 
         except Teacher_data.DoesNotExist:
             pass  
@@ -45,16 +49,16 @@ def login(request):
                 return redirect('student_home')  # Fixed
             else:
                 messages.error(request, "Invalid email or password.")
-                return redirect('login')
+                return redirect('teacher_student_login')
 
         except Student.DoesNotExist:
             pass
 
         messages.error(request, "Invalid email or password.")
-        return redirect('login')
+        return redirect('teacher_student_login')
 
     return render(request, 'login.html')
-def signin(request):
+def teacher_student_signin(request):
     if request.method == "POST":
         try:
             # fullname = request.POST.get('fullname')
@@ -65,11 +69,11 @@ def signin(request):
 
             if not selected_user or not email or not password or not confirm_password:
                 messages.error(request, "All fields are required.")
-                return redirect('signin')
+                return redirect('signteacher_student_signinin')
 
             if password != confirm_password:
                 messages.error(request, "Passwords do not match.")
-                return redirect('signin')
+                return redirect('teacher_student_signin')
 
             hashed_password = make_password(password)
 
@@ -80,7 +84,7 @@ def signin(request):
                 Student.objects.create(email=email, password=hashed_password)
 
             messages.success(request, "Registration successful! Please log in.")
-            return redirect('login')  # Redirect after successful signup
+            return redirect('teacher_student_signin')  # Redirect after successful signup
 
         except Exception as e:
             print("Error:", e)
@@ -93,12 +97,6 @@ def teacher_home(request):
 
 def student_home(request):
     return render(request, 'student_home.html')
-from django.shortcuts import render,HttpResponse
-from .models import Student,Classroom
-from .forms import StudentForm,classRoomForm,ClassRoomGeneratorForm
-from .models import Student, Attendence
-from django.shortcuts import get_object_or_404, redirect
-import random
 
 def Student_details(request):
     if request.method == 'POST':
@@ -178,3 +176,6 @@ def mark_attendance(request):
 
 def selection_register(request):
     return render(request,'login_after.html')
+
+def submit_student_details(request):
+    return render(request,'student_details.html')

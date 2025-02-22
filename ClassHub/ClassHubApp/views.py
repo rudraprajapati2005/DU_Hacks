@@ -21,7 +21,6 @@ def Student_details(request):
 
 def createClassroom(request):
     form = StudentForm(request.POST or None)
-    form=form.cleaned_data
     if form.is_valid():
-        return HttpResponse('<h1>' form '</h1>')
+        return HttpResponse('<h1>' +form+ '</h1>')
     return render(request, 'Student_details.html', {'form': form})

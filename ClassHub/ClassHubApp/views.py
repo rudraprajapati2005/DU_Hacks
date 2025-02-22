@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect,HttpResponse
 from django.contrib.auth.hashers import make_password, check_password
 from django.contrib import messages
-from ClassHubApp.models import Teacher_data, Student
+from ClassHubApp.models import Teacher_data, Student,StudentDetails
 
 from django.contrib.auth.hashers import check_password
 
@@ -42,7 +42,7 @@ def login(request):
                 user_type = "student"
                 request.session['user_id'] = user.id
                 request.session['user_type'] = user_type
-                return redirect('student_home')  # Fixed
+                return redirect('submit_student_details')  # Fixed
             else:
                 messages.error(request, "Invalid email or password.")
                 return redirect('login')
@@ -93,3 +93,33 @@ def teacher_home(request):
 
 def student_home(request):
     return render(request, 'student_home.html')
+
+
+def submit_student_details(request):
+    if request.method == "POST":
+        full_name = request.POST.get('full_name')
+        student_id = request.POST.get('student_id')
+        semester = request.POST.get('semester')
+        year = request.POST.get('year')
+        branch = request.POST.get('branch')
+        classroom_id = request.POST.get('classroom_id')
+
+        # Check if student ID already exists
+        if StudentDetails.objects.filter(student_id=student_id).exists():
+            messages.error(request, "Student ID already exists. Please use a different ID.")
+            return redirect('submit_student_details')  # Redirect back to form
+
+        # Save to database
+        StudentDetails.objects.create(
+            full_name=full_name,
+            student_id=student_id,
+            semester=int(semester),
+            year=int(year),
+            branch=branch,
+            classroom_id=classroom_id
+        )
+
+        messages.success(request, "Student registered successfully!")
+        return redirect('student_home')  # Redirect after successful registration
+
+    return render(request, 'submit_student_details.html')

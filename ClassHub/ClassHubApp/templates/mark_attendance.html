@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{% comment %} <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -28,6 +28,43 @@
                 {% endfor %}
             </tbody>
         </table>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html> {% endcomment %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mark Attendance</title>
+</head>
+<body>
+    <h2>Mark Attendance</h2>
+    <form method="post">
+        {% csrf_token %}
+        
+        <label for="student">Select Student:</label>
+        <select name="student_id" required>
+            {% for student in students %}
+            <option value="{{ student.id }}">{{ student.name }}</option>
+            {% endfor %}
+        </select>
+
+        <br><br>
+
+        <label for="date">Select Date:</label>
+        <input type="date" name="date" required>
+
+        <br><br>
+
+        <label>Status:</label>
+        <select name="status" required>
+            <option value="Present">Present</option>
+            <option value="Absent">Absent</option>
+        </select>
+
+        <br><br>
+
         <button type="submit">Submit</button>
     </form>
 </body>

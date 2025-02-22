@@ -8,28 +8,46 @@ class Teacher_data(models.Model):
 
 class Student(models.Model):
     email = models.CharField(max_length=50, unique=True)
-    password = models.CharField(max_length=255)  # Increased length
-    # <- Make this optional
+    password = models.CharField(max_length=50)
    
     def __str__(self):
         return self.email  # Fixed issue (was referencing 'user.username')
 
 
 class ClassroomCreator(models.Model):
-    user_id = models.TextField(primary_key=True)
+    user_id = models.CharField(primary_key=True,max_length=255,unique=True)
     user_classroom_name = models.CharField(max_length=255,unique=False)
     user_email = models.CharField(max_length=255,unique=True)
-    user_password= models.TextField( null=True)  # Optional field for biography
+    user_password= models.CharField( null=True,max_length=255)  # Optional field for biography
 
 class Classroom(models.Model):
-    creator = models.ForeignKey(ClassroomCreator, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(ClassroomCreator, on_delete=models.CASCADE)
     classroom_name = models.CharField(max_length=255,unique=True)
+    classroom_code = models.CharField(max_length=255,unique=True,default='DEFAULT_CODE')
     
-class Attendence(models.Model):
+# class Attendence(models.Model):
+#     student = models.ForeignKey(Student, on_delete=models.CASCADE)
+#     classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE)
+#     date = models.DateField()
+#     status = models.CharField(max_length=10, choices=[('Present', 'Present'), ('Absent', 'Absent')])
+
+#     def __str__(self):
+#         return f"{self.student.user.username} - {self.classroom.classroom_name} - {self.date} - {self.status}"
+
+class Attendance(models.Model):  # Ensure this matches the view
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE)
     date = models.DateField()
     status = models.CharField(max_length=10, choices=[('Present', 'Present'), ('Absent', 'Absent')])
 
 
 
+class StudentDetails(models.Model):
+    full_name = models.CharField(max_length=100)
+    student_id = models.CharField(max_length=20, unique=True)
+    semester = models.IntegerField()
+    year = models.IntegerField()
+    branch = models.CharField(max_length=50)
+    classroom_id = models.CharField(max_length=20)
+
+    def __str__(self):
+        return f"{self.full_name} - {self.student_id}"

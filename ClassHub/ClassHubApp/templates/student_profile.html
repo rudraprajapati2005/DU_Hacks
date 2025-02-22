@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ student.name }}'s Profile</h1>
+
+<!-- Attendance Section -->
+<h2>Attendance</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for record in attendance_records %}
+        <tr>
+            <td>{{ record.date }}</td>
+            <td>{% if record.status %}Present{% else %}Absent{% endif %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Performance Section -->
+<h2>Performance</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Subject</th>
+            <th>Score</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for record in performance_records %}
+        <tr>
+            <td>{{ record.subject }}</td>
+            <td>{{ record.score }}</td>
+            <td>{{ record.date }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Analytics Section -->
+<h2>Analytics</h2>
+<div class="analytics-chart">
+    <canvas id="engagementChart"></canvas>
+</div>
+<div class="analytics-chart">
+    <canvas id="attendanceChart"></canvas>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Engagement Chart
+    const engagementCtx = document.getElementById('engagementChart').getContext('2d');
+    const engagementChart = new Chart(engagementCtx, {
+        type: 'line',
+        data: {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+            datasets: [{
+                label: 'Engagement',
+                data: {{ engagement_data|safe }},
+                borderColor: '#4CAF50',
+                fill: false
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Attendance Chart
+    const attendanceCtx = document.getElementById('attendanceChart').getContext('2d');
+    const attendanceChart = new Chart(attendanceCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+            datasets: [{
+                label: 'Attendance',
+                data: {{ attendance_data|safe }},
+                backgroundColor: '#2196F3'
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

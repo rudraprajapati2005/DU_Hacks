@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - Smart Classroom</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Smart Classroom</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="attendance.html">Attendance</a></li>
+                <li><a href="performance.html">Performance</a></li>
+                <li><a href="lesson_plan.html">Lesson Plan</a></li>
+                <li><a href="communication.html">Communication</a></li>
+                <li><a href="homework.html">Homework</a></li>
+                <li><a href="analytics.html">Analytics</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Analytics</h1>
+        <div class="analytics-chart">
+            <canvas id="engagementChart"></canvas>
+        </div>
+        <div class="analytics-chart">
+            <canvas id="attendanceChart"></canvas>
+        </div>
+        <script>
+            // Engagement Chart
+            const engagementCtx = document.getElementById('engagementChart').getContext('2d');
+            const engagementChart = new Chart(engagementCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                    datasets: [{
+                        label: 'Engagement',
+                        data: [70, 80, 85, 90],
+                        borderColor: '#4CAF50',
+                        fill: false
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Attendance Chart
+            const attendanceCtx = document.getElementById('attendanceChart').getContext('2d');
+            const attendanceChart = new Chart(attendanceCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                    datasets: [{
+                        label: 'Attendance',
+                        data: [92, 95, 90, 88],
+                        backgroundColor: '#2196F3'
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        </script>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Smart Classroom Management</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

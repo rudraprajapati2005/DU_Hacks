@@ -1,11 +1,7 @@
 from django.shortcuts import render,HttpResponse
-<<<<<<< HEAD
 from .models import Student,Classroom
 from .forms import StudentForm,classRoomForm,ClassRoomGeneratorForm
-=======
 from .models import Student, Attendence
-from .forms import StudentForm
->>>>>>> 50e3b7a14c5ef3560469bf2fcb5e6f9eacd752db
 from django.shortcuts import get_object_or_404, redirect
 import random
 

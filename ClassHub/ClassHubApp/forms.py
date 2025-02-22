@@ -5,13 +5,10 @@ from .models import Student,ClassroomCreator,Classroom
 class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
-        fields = ['student_id', 'department', 'year', 'section', 'semester']
+        fields = ['email', 'password']
         labels = {
-            'student_id': 'Student ID',
-            'department': 'Department',
-            'year': 'Year',
-            'section': 'Section',
-            'semester': 'Semester',
+            'email': 'Student Email ID',
+            'password': 'Password',
         }
 class classRoomForm(forms.ModelForm):
     class Meta:

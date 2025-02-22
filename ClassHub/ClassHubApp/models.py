@@ -19,12 +19,6 @@ class Student(models.Model):
     def __str__(self):
         return self.user.username
 
-
-    
-
-
-
-
 class ClassroomCreator(models.Model):
     user_id = models.TextField(primary_key=True)
     user_classroom_name = models.CharField(max_length=255,unique=False)

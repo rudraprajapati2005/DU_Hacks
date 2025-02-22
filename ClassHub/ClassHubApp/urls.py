@@ -5,6 +5,8 @@ from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
-    path('', views.Student_details, name='Student_details'),      
-    path('admin/', admin.site.urls),
+    path('', views.Student_details, name='Student_details'),    
+    path('createClassroom/', views.createClassroom, name='createClassroom'),  
+    path('generateClassroomCode/', views.generateClassroom, name='generateClassroom'),
+  
 ]

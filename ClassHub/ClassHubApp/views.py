@@ -159,7 +159,7 @@ def generateClassroom(request):
     if form.is_valid():
         return HttpResponse('<h1>' +form+ '</h1>')
     return render(request, 'Student_details.html', {'form': form})
-
+    
 def mark_attendance(request):
     if request.method == 'POST':
         student_id = request.POST.get('student_id')
@@ -175,3 +175,6 @@ def mark_attendance(request):
     
     students = Student.objects.all()
     return render(request, 'mark_attendance.html', {'students': students})
+
+def selection_register(request):
+    return render(request,'login_after.html')

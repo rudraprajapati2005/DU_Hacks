@@ -8,7 +8,7 @@ class Teacher_data(models.Model):
 
 class Student(models.Model):
     email = models.CharField(max_length=50, unique=True)
-    password = models.CharField(max_length=255,min_length=8)
+    password = models.CharField(max_length=255)
    
     def __str__(self):
         return self.email  # Fixed issue (was referencing 'user.username')

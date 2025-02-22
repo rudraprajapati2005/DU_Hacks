@@ -10,26 +10,21 @@
 <body>
     <header>
         <nav>
-            <div class="logo">Smart Classroom</div>
+            <div class="logo">
+                 <img src="{%static 'images/classHubLogoNew.PNG'%}" class="menu-icon" alt="Menu"></div>
+            
             <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="attendance.html">Attendance</a></li>
-                <li><a href="performance.html">Performance</a></li>
-                <li><a href="lesson_plan.html">Lesson Plan</a></li>
-                <li><a href="communication.html">Communication</a></li>
-                <li><a href="homework.html">Homework</a></li>
-                <li><a href="analytics.html">Analytics</a></li>
+             
                 <li><a href="signin.html">Register</a></li>
                 <li><a href="login.html">Login</a></li>
             </ul>
         </nav>
     </header>
-
     <main>
         <section class="hero">
             <h1 style="color: black;">Welcome to Smart Classroom Management</h1>
             <p style="color: black;">Enhance your teaching experience with our innovative tools.</p>
-            <a href="attendance.html" class="btn">Get Started</a>
+            <a href="{% url 'after-login'%}" class="btn">Get Started</a>
         </section>
 
         <section class="features">

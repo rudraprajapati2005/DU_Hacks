@@ -1,5 +1,5 @@
 from django.shortcuts import render,HttpResponse
-from .models import Student
+from .models import Student, Attendence
 from .forms import StudentForm
 from django.shortcuts import get_object_or_404, redirect
 
@@ -24,3 +24,19 @@ def createClassroom(request):
     if form.is_valid():
         return HttpResponse('<h1>' +form+ '</h1>')
     return render(request, 'Student_details.html', {'form': form})
+
+def mark_attendance(request):
+    if request.method == 'POST':
+        student_id = request.POST.get('student_id')
+        date = request.POST.get('date')
+        status = request.POST.get('status')
+        
+        student = get_object_or_404(Student, id=student_id)
+        attendance, created = Attendence.objects.get_or_create(student=student, date=date)
+        attendance.status = status
+        attendance.save()
+        
+        return HttpResponse('Attendance marked successfully')
+    
+    students = Student.objects.all()
+    return render(request, 'mark_attendance.html', {'students': students})

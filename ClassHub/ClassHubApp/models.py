@@ -31,11 +31,5 @@ class Attendence(models.Model):
     date = models.DateField()
     status = models.CharField(max_length=10, choices=[('Present', 'Present'), ('Absent', 'Absent')])
 
-<<<<<<< HEAD
-
-=======
-    def __str__(self):
-        return f"{self.student.user.username} - {self.classroom.classroom_name} - {self.date} - {self.status}"
->>>>>>> 50e3b7a14c5ef3560469bf2fcb5e6f9eacd752db
 
 

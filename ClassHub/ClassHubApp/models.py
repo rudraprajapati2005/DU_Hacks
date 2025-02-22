@@ -2,22 +2,18 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Teacher_data(models.Model):
-    email =models.CharField( max_length=50)
-    password =models.CharField(max_length=10)
-    subject =models.CharField(max_length=10)
+    email = models.CharField(max_length=50, unique=True)
+    password = models.CharField(max_length=255)  # Increased length
+    subject = models.CharField(max_length=50)
 
 class Student(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    student_id = models.CharField(max_length=10, unique=True)
-    department = models.CharField(max_length=50)
-    year = models.IntegerField()
-    section = models.CharField(max_length=1)
-    semester = models.IntegerField()
-    is_student = models.BooleanField(default=True)
-    is_teacher = models.BooleanField(default=False)
-
+    email = models.CharField(max_length=50, unique=True)
+    password = models.CharField(max_length=255)  # Increased length
+    # <- Make this optional
+   
     def __str__(self):
-        return self.user.username
+        return self.email  # Fixed issue (was referencing 'user.username')
+
 
 class ClassroomCreator(models.Model):
     user_id = models.CharField(primary_key=True,max_length=255,unique=True)
@@ -36,7 +32,11 @@ class Attendence(models.Model):
     date = models.DateField()
     status = models.CharField(max_length=10, choices=[('Present', 'Present'), ('Absent', 'Absent')])
 
+<<<<<<< HEAD
+
+=======
     def __str__(self):
         return f"{self.student.user.username} - {self.classroom.classroom_name} - {self.date} - {self.status}"
+>>>>>>> 50e3b7a14c5ef3560469bf2fcb5e6f9eacd752db
 
 

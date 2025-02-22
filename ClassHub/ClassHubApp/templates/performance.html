@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance - Smart Classroom</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Smart Classroom</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="attendance.html">Attendance</a></li>
+                <li><a href="performance.html">Performance</a></li>
+                <li><a href="lesson_plan.html">Lesson Plan</a></li>
+                <li><a href="communication.html">Communication</a></li>
+                <li><a href="homework.html">Homework</a></li>
+                <li><a href="analytics.html">Analytics</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Student Performance</h1>
+        <div class="filter">
+            <label for="subjectFilter">Filter by Subject:</label>
+            <select id="subjectFilter">
+                <option value="math">Math</option>
+                <option value="science">Science</option>
+                <option value="english">English</option>
+            </select>
+        </div>
+        <div class="performance-chart">
+            <canvas id="performanceChart"></canvas>
+        </div>
+        <script>
+            const ctx = document.getElementById('performanceChart').getContext('2d');
+            const chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['John Doe', 'Jane Smith', 'Alice Johnson'],
+                    datasets: [{
+                        label: 'Scores',
+                        data: [85, 90, 78],
+                        backgroundColor: ['#4CAF50', '#2196F3', '#FFC107']
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Filter performance data by subject
+            const subjectFilter = document.getElementById('subjectFilter');
+            subjectFilter.addEventListener('change', function () {
+                const subject = this.value;
+                // Update chart data based on subject (mock data)
+                chart.data.datasets[0].data = [Math.random() * 100, Math.random() * 100, Math.random() * 100];
+                chart.update();
+            });
+        </script>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Smart Classroom Management</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

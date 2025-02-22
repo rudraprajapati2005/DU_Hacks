@@ -1,5 +1,5 @@
 from django import forms
-from .models import Student
+from .models import Student, Attendance
 
 
 class StudentForm(forms.ModelForm):
@@ -12,4 +12,13 @@ class StudentForm(forms.ModelForm):
             'year': 'Year',
             'section': 'Section',
             'semester': 'Semester',
+        }
+
+class AttendanceForm(forms.ModelForm):
+    class Meta:
+        model = Attendance
+        fields = ['student', 'status']
+        widgets = {
+            'student': forms.Select(attrs={'class': 'form-control'}),
+            'status': forms.Select(choices=[('Present', 'Present'), ('Absent', 'Absent')], attrs={'class': 'form-control'}),
         }

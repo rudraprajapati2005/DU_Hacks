@@ -1,5 +1,5 @@
 from django.shortcuts import render,HttpResponse
-from .models import Student, Attendence
+from .models import Student, Attendance
 from .forms import StudentForm
 from django.shortcuts import get_object_or_404, redirect
 

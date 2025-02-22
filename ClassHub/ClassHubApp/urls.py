@@ -6,6 +6,7 @@ from . import views
 
 urlpatterns = [
     path('', views.Student_details, name='Student_details'),  
-    path('mark-attendance/', views.mark_attendance, name='mark_attendance'),    
+    # path('mark-attendance/', views.mark_attendance, name='mark_attendance'),  
+    path('mark-attendance/', views.mark_attendance, name='mark_attendance'),  
     path('admin/', admin.site.urls),
 ]

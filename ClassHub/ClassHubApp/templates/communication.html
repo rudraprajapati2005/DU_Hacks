@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Communication - Smart Classroom</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Smart Classroom</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="attendance.html">Attendance</a></li>
+                <li><a href="performance.html">Performance</a></li>
+                <li><a href="lesson_plan.html">Lesson Plan</a></li>
+                <li><a href="communication.html">Communication</a></li>
+                <li><a href="homework.html">Homework</a></li>
+                <li><a href="analytics.html">Analytics</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Communication</h1>
+        <div class="chat-window">
+            <div class="messages" id="messageBox">
+                <div class="message">Teacher: Welcome to class!</div>
+                <div class="message">Student: Thank you!</div>
+            </div>
+            <textarea id="messageInput" placeholder="Type your message..."></textarea>
+            <button class="btn" id="sendButton">Send</button>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Smart Classroom Management</p>
+    </footer>
+
+    <script>
+        // JavaScript to handle sending messages
+        document.addEventListener('DOMContentLoaded', function () {
+            const messageBox = document.getElementById('messageBox');
+            const messageInput = document.getElementById('messageInput');
+            const sendButton = document.getElementById('sendButton');
+
+            sendButton.addEventListener('click', function () {
+                const messageText = messageInput.value.trim();
+                if (messageText !== '') {
+                    // Create a new message element
+                    const newMessage = document.createElement('div');
+                    newMessage.className = 'message';
+                    newMessage.textContent = `You: ${messageText}`;
+
+                    // Append the new message to the message box
+                    messageBox.appendChild(newMessage);
+
+                    // Clear the input field
+                    messageInput.value = '';
+
+                    // Scroll to the bottom of the message box
+                    messageBox.scrollTop = messageBox.scrollHeight;
+                }
+            });
+
+            // Allow pressing "Enter" to send the message
+            messageInput.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault(); // Prevent newline in textarea
+                    sendButton.click(); // Trigger the send button click
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson Plan - Smart Classroom</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Smart Classroom</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="attendance.html">Attendance</a></li>
+                <li><a href="performance.html">Performance</a></li>
+                <li><a href="lesson_plan.html">Lesson Plan</a></li>
+                <li><a href="communication.html">Communication</a></li>
+                <li><a href="homework.html">Homework</a></li>
+                <li><a href="analytics.html">Analytics</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Lesson Planning</h1>
+        <form id="lessonForm">
+            <label for="lessonTitle">Lesson Title</label>
+            <input type="text" id="lessonTitle" name="lessonTitle" required>
+
+            <label for="lessonDescription">Description</label>
+            <textarea id="lessonDescription" name="lessonDescription" rows="4" required></textarea>
+
+            <label for="lessonFile">Upload File</label>
+            <input type="file" id="lessonFile" name="lessonFile" accept=".pdf,.doc,.docx,.ppt,.pptx">
+
+            <div id="filePreview"></div>
+
+            <button type="submit" class="btn">Save Lesson</button>
+        </form>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Smart Classroom Management</p>
+    </footer>
+
+    <script>
+        // File preview for lesson plan uploads
+        const lessonFileInput = document.getElementById('lessonFile');
+        const filePreview = document.getElementById('filePreview');
+
+        lessonFileInput.addEventListener('change', function () {
+            const file = this.files[0];
+            if (file) {
+                filePreview.innerHTML = `<p>Selected File: <strong>${file.name}</strong></p>`;
+            } else {
+                filePreview.innerHTML = '';
+            }
+        });
+    </script>
+</body>
+</html>

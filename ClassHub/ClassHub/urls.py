@@ -16,11 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from ClassHub import views
+from ClassHubApp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('ClassHubApp.urls')),
-    path('',views.login),
-    path('register/',views.register),
+   path('', include('ClassHubApp.urls')),
+    
+    #path('register/',views.register),
 ]

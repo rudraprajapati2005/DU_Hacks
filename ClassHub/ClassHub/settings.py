@@ -37,14 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-<<<<<<< HEAD
     'ClassHubApp',
-=======
     'rest_framework',
     'channels',
     'ClassHubApp', 
-    'videoconference_app',   
->>>>>>> ba6bd9beb812cbd44dc67b3e151524cd216b6010
+    
 ]
 
 MIDDLEWARE = [

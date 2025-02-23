@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        body {
+            background-color: #e3f2fd;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background: #673AB7;
+            padding: 15px;
+            color: white;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px 20px;
+            transition: 0.3s;
+        }
+        .navbar a:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 30px;
+        }
+        .teacher-card {
+            background: #ffffff;
+            width: 280px;
+            margin: 15px;
+            padding: 25px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            text-align: center;
+            transition: 0.3s;
+        }
+        .teacher-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .teacher-card img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }
+        .teacher-card h3 {
+            margin-bottom: 8px;
+            color: #333;
+        }
+        .teacher-card p {
+            color: #777;
+        }
+        .current-page {
+            text-align: center;
+            margin: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="#">Home</a>
+        <a href="#">Attendance</a>
+        <a href="#">Class Meet</a>
+        <a href="#">Assignment</a>
+        <a href="#">Test</a>
+    </div>
+    
+   
+    
+    <div class="container">
+        <div class="teacher-card">
+            <img src="https://via.placeholder.com/90" alt="Teacher">
+            <h3>John Doe</h3>
+            <p>Mathematics</p>
+        </div>
+        <div class="teacher-card">
+            <img src="https://via.placeholder.com/90" alt="Teacher">
+            <h3>Jane Smith</h3>
+            <p>Physics</p>
+        </div>
+        <div class="teacher-card">
+            <img src="https://via.placeholder.com/90" alt="Teacher">
+            <h3>Michael Brown</h3>
+            <p>Computer Science</p>
+        </div>
+    </div>
+</body>
+</html>

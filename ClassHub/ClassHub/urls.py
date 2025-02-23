@@ -21,6 +21,6 @@ from ClassHubApp import views
 urlpatterns = [
     path('admin/', admin.site.urls),
    path('', include('ClassHubApp.urls')),
-    
+     path('conference/', include('videoconference_app.urls')),
     #path('register/',views.register),
 ]

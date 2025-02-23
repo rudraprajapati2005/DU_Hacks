@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% load static%}
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ClassHub</title>
@@ -17,7 +17,7 @@
         header {
             background: #75e42fc4;
             color: white;
-            padding: 1rem;
+            padding: 0PX;
             text-align: center;
         }
 
@@ -35,6 +35,7 @@
             padding: 2rem;
         }
         .feature {
+            width: 20%;
             text-align: center;
             border: 5px solid #86e396;
             border-radius: 10px;
@@ -42,10 +43,11 @@
             padding: 1rem;
             display: flex;
             flex-direction: column;
-            box-shadow: 5px 5px 5px  black;
+            align-items: center;
+            box-shadow: 5px 5px 5px black;
             transition: transform 1s;
         }
-        .feature:hover{
+        .feature:hover {
             transform: scale(1.1);
             transition: transform 1s;
         }
@@ -55,6 +57,7 @@
             padding: 0.5rem 1rem;
             border: none;
             cursor: pointer;
+            margin-top: 1rem;
         }
         footer {
             text-align: center;
@@ -62,14 +65,14 @@
             background: #333;
             color: white;
         }
-        img{
+        img {
             height: 200px;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>ClassHub</h1>
+        <img src="{% static 'images/classHubLogoNew.PNG' %}" alt="ClassHub Logo" style="height: 100px;">
     </header>
     <main>
         <section class="hero">
@@ -79,20 +82,20 @@
         <section class="features">
             <div class="feature">
                 <a href="{% url 'createClassroom' %}">
-                <img src="{% static 'images/classroomCreator.png'%}" alt="Create a Classroom" >
-                <button class="btn" onclick="window.location.href='#'">Create a Classroom</button>
+                    <img src="{% static 'images/classroomCreator.png' %}" alt="Create a Classroom"><br>
+                    <button class="btn">Create a Classroom</button>
                 </a>
             </div>
             <div class="feature">
                 <a href="{% url 'teacher_student_login' %}">
-                <img src="{% static 'images/teacherLogin.png'%}" alt="Login as Teacher">
-                <button class="btn" onclick="window.location.href='#'">Login as Teacher</button>
+                    <img src="{% static 'images/teacherLogin.png' %}" alt="Login as Teacher"><br>
+                    <button class="btn">Login as Teacher</button>
                 </a>
             </div>
             <div class="feature">
                 <a href="{% url 'teacher_student_login' %}">
-                <img src="{% static 'images/studentLogin.png'%}" alt="Login as Student">
-                <button class="btn" onclick="window.location.href='#'">Login as Student</button>
+                    <img src="{% static 'images/studentLogin.png' %}" alt="Login as Student"><br>
+                    <button class="btn">Login as Student</button>
                 </a>
             </div>
         </section>

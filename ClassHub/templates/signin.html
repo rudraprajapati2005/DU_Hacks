@@ -12,6 +12,7 @@
             align-items: center;
             height: 100vh;
             background-color: #f4f4f4;
+            margin: 0;
         }
         .registration-container {
             background: white;
@@ -30,11 +31,15 @@
             margin: 12px 0;
             border: 1px solid #ccc;
             border-radius: 5px;
+            box-sizing: border-box;
         }
         .registration-container .role-selection {
             display: flex;
             justify-content: center;
             margin: 12px 0;
+        }
+        .registration-container .role-selection label {
+            margin: 0 10px;
         }
         .registration-container button {
             width: 100%;
@@ -44,17 +49,19 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            box-sizing: border-box;
         }
         .registration-container button:hover {
             background: #138496;
         }
     </style>
 </head>
-<body><div class="registration-container">
+<body>
+<div class="registration-container">
     <h2>Register</h2>
 
-    {% comment %} Show error messages {% endcomment %}
-     {% if messages %}
+    <!-- Show error messages -->
+    {% if messages %}
         {% for message in messages %}
             <p style="color:red;">{{ message }}</p>
         {% endfor %}
@@ -75,3 +82,5 @@
         <button type="submit">Register</button>
     </form>
 </div>
+</body>
+</html>

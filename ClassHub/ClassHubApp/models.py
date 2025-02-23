@@ -16,7 +16,7 @@ class Student(models.Model):
 
 class ClassroomCreator(models.Model):
     user_id = models.CharField(primary_key=True,max_length=255,unique=True)
-    user_classroom_name = models.CharField(max_length=255,unique=False)
+    user_classroom_name = models.CharField(max_length=255,unique=True)
     user_email = models.CharField(max_length=255,unique=True)
     user_password= models.CharField( null=True,max_length=255)  # Optional field for biography
 
@@ -52,4 +52,25 @@ class StudentDetails(models.Model):
     def __str__(self):
         return f"{self.full_name} - {self.student_id}"
     
+<<<<<<< HEAD
     
+=======
+# meetings/models.py
+
+from django.db import models
+from django.contrib.auth.models import User
+
+class Meeting(models.Model):
+    title = models.CharField(max_length=100)
+    start_time = models.DateTimeField()
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_meetings')
+
+class Participant(models.Model):
+    MEETING_ROLES = (
+        ('Teacher', 'Teacher'),
+        ('Student', 'Student'),
+    )
+    meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE, related_name='participants')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    role = models.CharField(max_length=10)
+>>>>>>> ba6bd9beb812cbd44dc67b3e151524cd216b6010

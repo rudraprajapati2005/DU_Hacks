@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Home Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: #75e42fc4;
+            color: white;
+            padding: 1rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-links li {
+            margin: 0 1rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 2rem;
+            background: #f4f4f4;
+        }
+
+        .features {
+            display: flex;
+            justify-content: space-around;
+            padding: 2rem;
+        }
+
+        .feature {
+            text-align: center;
+        }
+
+        .btn {
+            background: #4CAF50;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #45a049;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background: #333;
+            color: white;
+        }
+
+        /* Form Styles */
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin: 0.5rem 0 0.2rem;
+        }
+
+        input[type="text"],
+        textarea,
+        input[type="date"],
+        input[type="file"] {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        /* Chat Window Styles */
+        .chat-window {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .messages {
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: white;
+        }
+
+        .message {
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            background: #e0e0e0;
+            border-radius: 4px;
+            word-wrap: break-word;
+        }
+
+        .message:last-child {
+            margin-bottom: 0;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: none;
+            margin-bottom: 0.5rem;
+        }
+
+        .btn {
+            background: #4CAF50;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #45a049;
+        }
+
+        /* Chart Styles */
+        .performance-chart,
+        .analytics-chart {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .menu-icon {
+            height: 10vh;
+            width: 10vh;  
+            display: flex;
+            justify-self: left;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .classroom-card {
+            background: #f4f4f4;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .classroom-card h2 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .classroom-card p {
+            margin: 0.5rem 0;
+        }
+
+        .classroom-card .btn {
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="menu-icon">
+                <!-- You can place your logo or menu icon here -->
+            </div>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="hero">
+        <h1>Welcome, {{ teacher.email }}</h1>
+        <p>Manage your classrooms and meetings here</p>
+        {% if teacher.subject %}
+            <p><strong>Subject:</strong> {{ teacher.subject }}</p>
+        {% else %}
+            <form method="post" action="{% url 'teacher-save-subject' %}">
+                {% csrf_token %}
+                <input type="hidden" name="teacher_id" value="{{ teacher.email }}">
+                <input type="text" name="subject" placeholder="Enter Subject" required>
+                <button type="submit">Add Subject</button>
+            </form>
+        {% endif %}
+    </div>
+    <div class="container">
+        <h1>Your Classrooms</h1>
+        <div class="classroom-card">
+            <h2>Classroom Name</h2>
+            <p><strong>Classroom Code:</strong> 123456</p>
+            <button class="btn" onclick="window.location.href='/create-meeting'">Create New Meeting</button>
+        </div>
+        <!-- Add more classroom cards as needed -->
+    </div>
+    <footer>
+        <p>&copy; 2025 Teacher Home Page. All rights reserved.</p>
+    </footer>
+</body>
+</html>

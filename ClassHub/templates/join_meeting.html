@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Join Meeting</title>
+</head>
+<body>
+    <h1>Join Meeting</h1>
+    <div id="meeting-container">
+        <video id="local-video" autoplay></video>
+        <video id="remote-video" autoplay></video>
+    </div>
+
+    <script>
+        const localVideo = document.getElementById('local-video');
+        const remoteVideo = document.getElementById('remote-video');
+
+        const ws = new WebSocket('ws://' + window.location.host + '/ws/meeting/' + '{{ meeting.id }}/');
+
+        ws.onmessage = function(event) {
+            const message = JSON.parse(event.data).message;
+            console.log('Received message:', message);
+            // Handle video streaming here
+        };
+
+        // Additional WebRTC setup for video streaming goes here
+    </script>
+</body>
+</html>

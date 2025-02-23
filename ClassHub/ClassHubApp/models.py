@@ -51,3 +51,22 @@ class StudentDetails(models.Model):
 
     def __str__(self):
         return f"{self.full_name} - {self.student_id}"
+    
+# meetings/models.py
+
+from django.db import models
+from django.contrib.auth.models import User
+
+class Meeting(models.Model):
+    title = models.CharField(max_length=100)
+    start_time = models.DateTimeField()
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_meetings')
+
+class Participant(models.Model):
+    MEETING_ROLES = (
+        ('Teacher', 'Teacher'),
+        ('Student', 'Student'),
+    )
+    meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE, related_name='participants')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    role = models.CharField(max_length=10)

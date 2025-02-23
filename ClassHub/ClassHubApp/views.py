@@ -6,10 +6,15 @@ from django.contrib.auth.hashers import check_password
 from ClassHubApp.models import Teacher_data, Student
 from .models import Student,Classroom,ClassroomCreator
 from .forms import StudentForm,classRoomForm,ClassRoomGeneratorForm
-from .models import Student, Attendance
+from .models import Student, Attendance,Meeting,Participant
 from django.shortcuts import get_object_or_404, redirect
 import random
-
+import json
+from channels.generic.websocket import AsyncWebsocketConsumer
+from channels.db import database_sync_to_async
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 def teacher_student_login(request):
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -28,7 +33,7 @@ def teacher_student_login(request):
 
             if check_password(password, user.password):  
                 user_type = "teacher"
-                request.session['user_id'] = user.id
+                request.session['user_id'] = user.email
                 request.session['user_type'] = user_type
                 return redirect('teacher_home')  # Fixed
             else:
@@ -109,10 +114,6 @@ def Student_details(request):
 
     return render(request,'index.html', {'form': form})
 
-
-    student = get_object_or_404(Student, student_id=1)
-    return render(request, 'Student_details.html', {'student': student})
-    
 
 def createClassroom(request):
     if 'user_type' in request.session :
@@ -245,3 +246,109 @@ def classRoomCreatorLogin(request):
             except ClassroomCreator.DoesNotExist:
                 return HttpResponse('Invalid Email')
         return render(request,'classRoomCreatorLogin.html')
+def teacher_home(request):
+        teacher = Teacher_data.objects.filter(email=request.session['user_id']).first()
+
+    # Convert the teacher data into a dictionary
+        teacher_data = {
+            'email': teacher.email,
+            'password': teacher.password,  # Be cautious with sensitive information
+            'subject': teacher.subject,
+        }
+        # Pass the dictionary to the template
+        return render(request, 'teacher_home.html', {'teacher': teacher_data})
+
+def save_subject(request):
+    if request.method == 'POST':
+        teacher = Teacher_data.objects.filter(email=request.POST.get('teacher_id')).first()
+        teacher.subject = request.POST.get('subject')
+        teacher.save()
+        teacher = Teacher_data.objects.filter(email=request.POST.get('teacher_id')).first()
+        teacher_data = {
+            'email': teacher.email,
+            'password': teacher.password,  # Be cautious with sensitive information
+            'subject': teacher.subject,
+        }
+        return render(request, 'teacher_home.html', {'teacher': teacher_data})
+    return HttpResponse('Invalid request')
+
+
+class VideoMeetingConsumer(AsyncWebsocketConsumer):
+    async def connect(self):
+        self.room_name = self.scope['url_route']['kwargs']['room_name']
+        self.room_group_name = f'meeting_{self.room_name}'
+
+        # Add the participant to the meeting
+        await self.add_participant(self.room_name, self.scope['user'])
+
+        await self.channel_layer.group_add(
+            self.room_group_name,
+            self.channel_name
+        )
+        await self.accept()
+
+    async def disconnect(self, close_code):
+        await self.channel_layer.group_discard(
+            self.room_group_name,
+            self.channel_name
+        )
+
+        # Remove the participant from the meeting
+        await self.remove_participant(self.room_name, self.scope['user'])
+
+    async def receive(self, text_data):
+        text_data_json = json.loads(text_data)
+        message = text_data_json['message']
+
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                'type': 'chat_message',
+                'message': message
+            }
+        )
+
+    async def chat_message(self, event):
+        message = event['message']
+
+        await self.send(text_data=json.dumps({
+            'message': message
+        }))
+
+    
+    @database_sync_to_async
+    def add_participant(self, room_name, user):
+        meeting = Meeting.objects.get(id=room_name)
+        Participant.objects.create(meeting=meeting, user=user, role=self.get_user_role(user))
+
+    @database_sync_to_async
+    def remove_participant(self, room_name, user):
+        meeting = Meeting.objects.get(id=room_name)
+        Participant.objects.filter(meeting=meeting, user=user).delete()
+
+    def get_user_role(self, user):
+        if Teacher_data.objects.filter(email=user.email).exists():
+            return 'Teacher'
+        elif Student.objects.filter(email=user.email).exists():
+            return 'Student'
+        else:
+            return 'Unknown'
+def start_meeting(request):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        start_time = timezone.now()
+        created_by = request.user
+
+        meeting = Meeting.objects.create(title=title, start_time=start_time, created_by=created_by)
+        return redirect('join_meeting', meeting_id=meeting.id)
+    
+    return render(request, 'start_meeting.html')
+
+
+def join_meeting(request, meeting_id):
+    meeting = get_object_or_404(Meeting, id=meeting_id)
+    
+    if request.user.is_authenticated:
+        Participant.objects.get_or_create(meeting=meeting, user=request.user)
+    
+    return render(request, 'join_meeting.html', {'meeting': meeting})

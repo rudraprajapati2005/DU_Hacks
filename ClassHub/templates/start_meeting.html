@@ -1,0 +1,45 @@
+<!-- templates/start_meeting.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Start Meeting</title>
+</head>
+<body>
+    <h1>Start Meeting</h1>
+    <form id="start-meeting-form" >
+        {% csrf_token %}
+        <label for="meeting-title">Meeting Title:</label>
+        <input type="text" id="meeting-title" name="meeting-title" required><br>
+        <label for="start-time">Start Time:</label>
+        <input type="datetime-local" id="start-time" name="start-time" required><br>
+        <button type="submit">Start Meeting</button>
+    </form>
+
+    <script>
+        document.getElementById('start-meeting-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const meetingTitle = document.getElementById('meeting-title').value;
+            const startTime = document.getElementById('start-time').value;
+
+            fetch('/api/meetings/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    title: meetingTitle,
+                    start_time: startTime,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Meeting started:', data);
+                window.location.href = `/meeting/${data.id}/`;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>

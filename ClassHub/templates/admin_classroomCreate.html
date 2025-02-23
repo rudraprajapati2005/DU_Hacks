@@ -62,7 +62,9 @@
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">Submit</button>
+           Already have an account?<a href="{% url 'classRoomCreatorLogin'%}">Try Login</a>
         </form>
+        
     </div>
 
     <script>

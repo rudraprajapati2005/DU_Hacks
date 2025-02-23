@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Classroom Creator Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: #75e42fc4;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin: 0 1rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 2rem;
+            background: #f4f4f4;
+        }
+
+        .features {
+            display: flex;
+            justify-content: space-around;
+            padding: 2rem;
+        }
+
+        .feature {
+            text-align: center;
+        }
+
+        .btn {
+            background: #4CAF50;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background: #333;
+            color: white;
+        }
+
+        /* Form Styles */
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin: 0.5rem 0 0.2rem;
+        }
+
+        input[type="text"],
+        textarea,
+        input[type="date"],
+        input[type="file"] {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        /* Chat Window Styles */
+        .chat-window {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .messages {
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: white;
+        }
+
+        .message {
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            background: #e0e0e0;
+            border-radius: 4px;
+            word-wrap: break-word;
+        }
+
+        .message:last-child {
+            margin-bottom: 0;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: none;
+            margin-bottom: 0.5rem;
+        }
+
+        .btn {
+            background: #4CAF50;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #45a049;
+        }
+
+        /* Chart Styles */
+        .performance-chart,
+        .analytics-chart {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .menu-icon{
+            height: 10vh;
+            width: 10vh;  
+            display: flex;
+            justify-self: left;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .details {
+            margin-bottom: 20px;
+        }
+
+        .details ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .details li {
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="menu-icon">
+                <!-- You can place your logo or menu icon here -->
+            </div>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="hero">
+        <h1>Welcome  {{ classroomCreator.0.user_id }}</h1>
+    </div>
+    <div class="container">
+        <h1>Classroom Creator Details</h1>
+        <div class="details">
+            <h2>Classroom Creator Information</h2>
+            <ul>
+                {% for creator in classroomCreator %}
+                    <li><strong>User ID:</strong> {{ creator.user_id }}</li>
+                    <li><strong>Classroom Name:</strong> {{ creator.user_classroom_name }}</li>
+                    <li><strong>Email:</strong> {{ creator.user_email }}</li>
+                    <li><strong>Password:</strong> {{ creator.user_password }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <div class="details">
+            <h2>Classroom Information</h2>
+            <ul>
+                {% for classroom in classroom %}
+                    <li><strong>User ID:</strong> {{ classroom.user_id }}</li>
+                    <li><strong>Classroom Name:</strong> {{ classroom.classroom_name }}</li>
+                    <li><strong>Classroom Code:</strong> {{ classroom.classroom_code }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <button class="btn" onclick="window.location.href='/create-classroom'">Create New Classroom</button>
+    
+    </div>
+    <footer>
+        <p>&copy; 2025 Classroom Creator. All rights reserved.</p>
+    </footer>
+</body>
+</html>

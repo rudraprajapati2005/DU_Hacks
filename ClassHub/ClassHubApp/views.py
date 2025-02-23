@@ -4,7 +4,7 @@ from django.contrib import messages
 from ClassHubApp.models import Teacher_data, Student
 from django.contrib.auth.hashers import check_password
 from ClassHubApp.models import Teacher_data, Student
-from .models import Student,Classroom
+from .models import Student,Classroom,ClassroomCreator
 from .forms import StudentForm,classRoomForm,ClassRoomGeneratorForm
 from .models import Student, Attendance
 from django.shortcuts import get_object_or_404, redirect
@@ -115,6 +115,37 @@ def Student_details(request):
     
 
 def createClassroom(request):
+    if 'user_type' in request.session :
+        if request.session['user_type'] == 'classroomCreator':
+            classroomCreatorName = request.session['creator']
+            classroomCreator_details = ClassroomCreator.objects.filter(user_id=classroomCreatorName)
+            classroomdetails = Classroom.objects.filter(user_id=classroomCreatorName)
+            
+            # Extract field values
+            classroomCreator_list = [
+                {
+                    'user_id': creator.user_id,
+                    'user_classroom_name': creator.user_classroom_name,
+                    'user_email': creator.user_email,
+                    'user_password': creator.user_password
+                }
+                for creator in classroomCreator_details
+            ]
+
+            classroom_list = [
+                {
+                    'user_id': classroom.user_id.user_id,  # Access related ClassroomCreator user_id
+                    'classroom_name': classroom.classroom_name,
+                    'classroom_code': classroom.classroom_code
+                }
+                for classroom in classroomdetails
+            ]
+
+            return render(request, 'classRoomCreator.html', {
+                'classroomCreator': classroomCreator_list,
+                'classroom': classroom_list
+            })
+        return HttpResponse('DONE CHE')
     form=classRoomForm()
     if request.method == 'POST':
         form = classRoomForm(request.POST)
@@ -147,17 +178,11 @@ def generateClassroom(request):
         
     if form.is_valid():
             form.save()
-            form=form.__str__
+            form=str(form)
             return HttpResponse('Classroom created successfully!<br>Classroom code: ' + form)
     else:
-            return HttpResponse('Form is not valid')
+            return HttpResponse('Here Form is not valid')
  
-            
-    form = StudentForm(request.POST or None)
-    if form.is_valid():
-        return HttpResponse('<h1>' +form+ '</h1>')
-    return render(request, 'Student_details.html', {'form': form})
-
 def mark_attendance(request):
     if request.method == 'POST':
         student_id = request.POST.get('student_id')
@@ -165,7 +190,7 @@ def mark_attendance(request):
         status = request.POST.get('status')
         
         student = get_object_or_404(Student, id=student_id)
-        attendance, created = Attendence.objects.get_or_create(student=student, date=date)
+        attendance, created = Attendance.objects.get_or_create(student=student, date=date)
         attendance.status = status
         attendance.save()
         
@@ -179,3 +204,44 @@ def selection_register(request):
 
 def submit_student_details(request):
     return render(request,'student_details.html')
+
+def classRoomCreatorLogin(request):
+        if request.method=='POST':
+            email=request.POST.get('user_id')
+            password=request.POST.get('password')
+            classroomCreatorName=email
+            try:
+                classroomCreator=ClassroomCreator.objects.get(user_id=email)
+                if classroomCreator.user_password==password:
+                    classroomCreator_details = ClassroomCreator.objects.filter(user_id=classroomCreatorName)
+                    classroomCreatorName=email
+                    classroomdetails = Classroom.objects.filter(user_id=classroomCreatorName)
+                    # Extract field values
+                    classroomCreator_list = [
+                        {
+                            'user_id': creator.user_id,
+                            'user_classroom_name': creator.user_classroom_name,
+                            'user_email': creator.user_email,
+                            'user_password': creator.user_password
+                        }
+                        for creator in classroomCreator_details
+                    ]
+
+                    classroom_list = [
+                        {
+                            'user_id': classroom.user_id.user_id,  # Access related ClassroomCreator user_id
+                            'classroom_name': classroom.classroom_name,
+                            'classroom_code': classroom.classroom_code
+                        }
+                        for classroom in classroomdetails
+                    ]
+
+                    return render(request, 'classRoomCreator.html', {
+                        'classroomCreator': classroomCreator_list,
+                        'classroom': classroom_list
+                    })
+                else:
+                    return HttpResponse('Invalid Password')
+            except ClassroomCreator.DoesNotExist:
+                return HttpResponse('Invalid Email')
+        return render(request,'classRoomCreatorLogin.html')

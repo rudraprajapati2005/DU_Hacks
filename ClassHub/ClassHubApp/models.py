@@ -16,7 +16,7 @@ class Student(models.Model):
 
 class ClassroomCreator(models.Model):
     user_id = models.CharField(primary_key=True,max_length=255,unique=True)
-    user_classroom_name = models.CharField(max_length=255,unique=False)
+    user_classroom_name = models.CharField(max_length=255,unique=True)
     user_email = models.CharField(max_length=255,unique=True)
     user_password= models.CharField( null=True,max_length=255)  # Optional field for biography
 

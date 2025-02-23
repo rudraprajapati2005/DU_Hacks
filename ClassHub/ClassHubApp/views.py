@@ -46,7 +46,9 @@ def teacher_student_login(request):
                 user_type = "student"
                 request.session['user_id'] = user.id
                 request.session['user_type'] = user_type
-                return redirect('student_home')  # Fixed
+               
+                teachers = Teacher_data.objects.all() 
+                return render(request,'Student_home.html', {'teachers': teachers})  # Fixed
             else:
                 messages.error(request, "Invalid email or password.")
                 return redirect('teacher_student_login')
@@ -179,3 +181,13 @@ def selection_register(request):
 
 def submit_student_details(request):
     return render(request,'student_details.html')
+
+def classmeet(request):
+    return render(request,'classmeet.html')
+
+def student_home(request):
+    return render(request,'Student_home.html')
+
+def teacher_dashboard(request):
+    # Fetch all teacher records
+    return render(request, 'Student_home.html', {'teachers': teachers}) 

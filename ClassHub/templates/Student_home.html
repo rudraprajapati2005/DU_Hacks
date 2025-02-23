@@ -80,29 +80,22 @@
     <div class="navbar">
         <a href="#">Home</a>
         <a href="#">Attendance</a>
-        <a href="#">Class Meet</a>
+        <a href="{% url 'classmeet' %}">Class Meet</a>
         <a href="#">Assignment</a>
         <a href="#">Test</a>
     </div>
     
-   
-    
     <div class="container">
-        <div class="teacher-card">
-            <img src="https://via.placeholder.com/90" alt="Teacher">
-            <h3>John Doe</h3>
-            <p>Mathematics</p>
-        </div>
-        <div class="teacher-card">
-            <img src="https://via.placeholder.com/90" alt="Teacher">
-            <h3>Jane Smith</h3>
-            <p>Physics</p>
-        </div>
-        <div class="teacher-card">
-            <img src="https://via.placeholder.com/90" alt="Teacher">
-            <h3>Michael Brown</h3>
-            <p>Computer Science</p>
-        </div>
+        {% for teacher in teachers %}
+            <div class="teacher-card">
+                <img src="https://via.placeholder.com/90" alt="Teacher">
+                <h3>{{ teacher.email }}</h3>
+                <p>{{ teacher.subject }}</p>
+            </div>
+        {% empty %}
+            <p>No teachers found.</p>
+        {% endfor %}
+    </div>
     </div>
 </body>
 </html>
